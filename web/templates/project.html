@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<div id="project">
+  <div class="illustration">
+    <img src="{{ project.image_url }}" alt="{{ project.name }}">
+  </div>
+  <div class="presentation">
+    <h1>{{ project.name }}</h1>
+    <p>{{ project.beginning }} - {% if project.end %}{{ project.end }}{% else %}current{% endif %}</p>
+  </div>
+  <p class="markdown">{{ project.description }}</p>
+  <div id="stats">
+    {% for stat in project.all_stats %}<div class="stat" style="width: {{ percent_stats }}%;">
+      <h6>{{ stat.name }}</h6>
+      <strong>{{ stat.value }}</strong>
+    </div>{% endfor %}
+  </div>
+  <div id="screenshots">
+    <a class="screenshot" href="{{ project.screenshot1_url }}" style="background-image: url('{{ project.screenshot1_url }}');" data-open-image="true"></a><a class="screenshot" href="{{ project.screenshot2_url }}" style="background-image: url('{{ project.screenshot2_url }}');" data-open-image="true"></a><a class="screenshot" href="{{ project.screenshot3_url }}" style="background-image: url('{{ project.screenshot3_url }}');" data-open-image="true"></a>
+  </div>
+  <div id="tags">
+    {% for tag in project.all_tags %}
+    <a href="/projects/?tags={{ tag }}&project={{ project.web_url }}" class="tag">{{ tag.name }}</a>
+    {% endfor %}
+  </div>
+  <div class="buttons">
+    {% if project.source_code_url %}
+    <a href="{{ project.source_code_url }}" class="link-button" style="color: {{ project.color }};" target="_blank">Source Code</a>{% endif %}{% if project.url %}<a href="{{ project.url }}" class="big-button" style="background-color: {{ project.color }};" target="_blank">Open</a>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

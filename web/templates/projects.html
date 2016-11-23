@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<div id="projects">
+  <h1 class="title">
+    db0's projects
+    {% if tags %}<br><small>{{ tags }}</small>{% endif %}
+  </h1>
+  {% for project in projects %}<a href="{{ project.web_url }}" class="project{% if project.small %} small{% endif %}"
+     style="background-image: url('{{ project.image_url }}');">
+    <h4 style="display: none; ">{{ project.name }}</h4>
+  </a>{% endfor %}
+</div>
+{% endblock %}
+{% block extrabuttons %}
+<a href="/tags/">Tags</a>
+<hr>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="socials">
+  {% for link in socials %}
+  {% ifchanged link.small %}
+  <br>
+  {% endifchanged %}
+  <a href="{{ link.url }}" target="_blank" class="social{% if link.small %} small{% endif %}">
+    <div class="illustration{% if link.small %} small{% endif %}" style="background-color: {{ link.color }}; background-image: url('{{ link.image_url }}');"></div>
+    <h4>{{ link.name }}</h4>
+    <p>{{ link.description }}</p>
+  </a>
+  {% endfor %}
+</div>
+{% endblock %}

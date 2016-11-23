@@ -60,3 +60,7 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+
+# db0
+db0/local_settings.py
+web/static/uploaded/

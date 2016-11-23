@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="presentation">
+  <h1>db0</h1>
+  <nav>
+    {% for name, title, url, color in nav %}
+    {% if name != current %}
+    <a href="{{ url }}" style="color: {{ color }};">{{ title }}</a>
+    {% endif %}
+    {% endfor %}
+  </nav>
+</div>
+{% endblock %}
