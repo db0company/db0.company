@@ -16,7 +16,7 @@
     </div>{% endfor %}
   </div>
   <div id="screenshots">
-    <a class="screenshot" href="{{ project.screenshot1_url }}" style="background-image: url('{{ project.screenshot1_url }}');" data-open-image="true"></a><a class="screenshot" href="{{ project.screenshot2_url }}" style="background-image: url('{{ project.screenshot2_url }}');" data-open-image="true"></a><a class="screenshot" href="{{ project.screenshot3_url }}" style="background-image: url('{{ project.screenshot3_url }}');" data-open-image="true"></a>
+    {% if project.screenshot1 %}<a class="screenshot" href="{{ project.screenshot1_url }}" style="background-image: url('{{ project.screenshot1_url }}');" data-open-image="true"></a>{% endif %}{% if project.screenshot2 %}<a class="screenshot" href="{{ project.screenshot2_url }}" style="background-image: url('{{ project.screenshot2_url }}');" data-open-image="true"></a>{% endif %}{% if project.screenshot3 %}<a class="screenshot" href="{{ project.screenshot3_url }}" style="background-image: url('{{ project.screenshot3_url }}');" data-open-image="true"></a>{% endif %}
   </div>
   <div id="tags">
     {% for tag in project.all_tags %}

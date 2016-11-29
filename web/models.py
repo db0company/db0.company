@@ -74,7 +74,7 @@ class Tag(models.Model):
         return self.name
 
 class Project(models.Model):
-    image = models.ImageField(upload_to=uploadImage(prefix='p'))
+    image = models.ImageField(upload_to=uploadImage(prefix='p'), blank=True, null=True)
     name = models.CharField(max_length=200)
     beginning = models.DateField()
     end = models.DateField(null=True, blank=True)
@@ -84,9 +84,9 @@ class Project(models.Model):
     tags = models.ManyToManyField(Tag)
     url = models.CharField(max_length=500, blank=True)
     source_code_url = models.CharField(max_length=500, blank=True)
-    screenshot1 = models.ImageField(upload_to=uploadImage(prefix='p/s'), null=True)
-    screenshot2 = models.ImageField(upload_to=uploadImage(prefix='p/s'), null=True)
-    screenshot3 = models.ImageField(upload_to=uploadImage(prefix='p/s'), null=True)
+    screenshot1 = models.ImageField(upload_to=uploadImage(prefix='p/s'), null=True, blank=True)
+    screenshot2 = models.ImageField(upload_to=uploadImage(prefix='p/s'), null=True, blank=True)
+    screenshot3 = models.ImageField(upload_to=uploadImage(prefix='p/s'), null=True, blank=True)
     small = models.BooleanField(default=True)
     color = models.CharField(max_length=32, blank=True)
 
