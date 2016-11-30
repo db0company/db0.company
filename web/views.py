@@ -12,7 +12,7 @@ def globalContext(request, nav=NAV):
     rainbow = utils.getRainbowFromSize(len(nav))
     return {
         'current': resolve(request.path_info).url_name,
-        'static_url': settings.STATIC_URL,
+        'static_url': (settings.STATIC_FULL_URL + settings.STATIC_URL).replace('//static', '/static'),
         'site_name': 'db0.company',
         'site_description': 'Deby Lepage Official Website',
         'debug': settings.DEBUG,
