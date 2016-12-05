@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="faq-content">
+  <h1 class="title">
+    F.A.Q. <small>{{ questions|length }}</small>
+  </h1>
+  {% for question in questions %}
+  <h2 style="color: {{ question.color }};">{{ question.question }}</h2>
+  <p class="markdown answer">{{ question.answer }}</p>
+  {% endfor %}
+  <h1><a href="https://goo.gl/forms/SV32VwYjk6wel3UE3" target="_blank">Any other question?</a></h1>
+  <br><br><br>
+</div>
+{% endblock %}
