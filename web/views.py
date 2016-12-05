@@ -55,7 +55,7 @@ def project(request, id):
     context['back'] = '/projects/'
     context['project'] = get_object_or_404(models.Project.objects.all().prefetch_related(Prefetch('stats', to_attr='all_stats'), Prefetch('tags', to_attr='all_tags')), id=id)
     total = len(context['project'].all_stats)
-    context['percent_stats'] = 100 / int(total / int(math.ceil(total / 4)))
+    context['percent_stats'] = 100 / int(total / int(math.ceil(total / 4))) if total else 0
     return render(request, 'project.html', context)
 
 def social(request):
