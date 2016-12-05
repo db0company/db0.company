@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="socials">
+  {% if tags %}
+  <h1 class="title"><small>{{ tags }}</small></h1>
+  {% endif %}
   {% for link in socials %}
   {% ifchanged link.small %}
   <br>
@@ -9,7 +12,14 @@
     <div class="illustration{% if link.small %} small{% endif %}" style="background-color: {{ link.color }}; background-image: url('{{ link.image_url }}');"></div>
     <h4>{{ link.name }}</h4>
     <p>{{ link.description }}</p>
+    {% if show_tags %}
+    <small style="color: {{ link.color }};">{{ link.tags_string }}</small>
+    {% endif %}
   </a>
   {% endfor %}
 </div>
+{% endblock %}
+{% block extrabuttons %}
+<a href="/socialtags/">Tags</a>
+<hr>
 {% endblock %}

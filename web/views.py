@@ -3,7 +3,7 @@ from __future__ import division
 import random, math
 from django.core.urlresolvers import resolve
 from django.shortcuts import render, get_object_or_404
-from django.db.models import Prefetch
+from django.db.models import Prefetch, Count
 from django.conf import settings
 from web import models, utils
 from web.constants import *
@@ -16,6 +16,7 @@ def globalContext(request, nav=NAV):
         'site_name': 'db0.company',
         'site_description': 'Deby Lepage Official Website',
         'debug': settings.DEBUG,
+        'static_files_version': '2',
         'rainbow': [(
             (index * (100/len(RAINBOW))),
             ((index + 1) * (100 / (len(RAINBOW)))),
@@ -60,13 +61,44 @@ def project(request, id):
 def social(request):
     context = globalContext(request)
     context['socials'] = models.SocialLink.objects.all().order_by('small', '-importance', 'name')
+    context['show_tags'] = 'show_tags' in request.GET
+    if context['show_tags']:
+        context['socials'] = context['socials'].prefetch_related(Prefetch('tags', to_attr='all_tags'))
+    if 'tags' in request.GET:
+        context['hide_nav'] = True
+        context['back'] = '/socialtags/'
+        context['tags'] = []
+        for tag in request.GET['tags'].split(','):
+            context['tags'].append(tag)
+            context['socials'] = context['socials'].filter(tags__name=tag)
+        if not context['socials']:
+            context['tags'] = []
+        context['tags'] = ' - '.join(context['tags'])
     for (link, color) in zip(context['socials'], utils.getRainbowFromSize(len(context['socials']))):
         link.color = color
+        if context['show_tags']:
+            link.tags_string = u', '.join([tag.name for tag in link.all_tags])
     return render(request, 'social.html', context)
+
+def faq(request):
+    context = globalContext(request)
+    context['questions'] = models.FAQ.objects.all().order_by('-importance')
+    for (question, color) in zip(context['questions'], utils.getRainbowFromSize(len(context['questions']))):
+        question.color = color
+    return render(request, 'faq.html', context)
 
 def tags(request):
     context = globalContext(request)
     context['hide_nav'] = True
     context['back'] = '/projects/'
+    context['filter_url'] = '/projects/'
     context['tags'] = models.Tag.objects.all().order_by('?')
+    return render(request, 'tags.html', context)
+
+def socialtags(request):
+    context = globalContext(request)
+    context['hide_nav'] = True
+    context['back'] = '/social/'
+    context['filter_url'] = '/social/'
+    context['tags'] = models.SocialTag.objects.all().order_by('?')
     return render(request, 'tags.html', context)

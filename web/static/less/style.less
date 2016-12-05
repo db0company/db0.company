@@ -59,7 +59,7 @@ h1, h2, h3, h4, h6 {
     color: white;
     border-radius: 10px;
     transition: opacity 0.1s ease;
-    &:hover {
+    &:hover, &:focus {
 	text-decoration: none;
 	color: white;
 	opacity: 0.8;
@@ -146,7 +146,7 @@ iframe {
 	font-size: 0.7em;
 	padding-right: 5px;
     }
-    &:hover:before {
+    &:hover:before, &:focus:before {
 	text-decoration: none;
     }
 }
@@ -194,6 +194,12 @@ iframe {
     p {
 	color: @lightGrey;
 	line-height: 1.2em;
+    }
+    small {
+	display: block;
+	padding-top: 10px;
+	font-size: 0.8em;
+	opacity: 0.6;
     }
     &.small {
 	max-width: 104px;
@@ -276,22 +282,6 @@ iframe {
 	    color: @lightGrey;
 	}
     }
-    .markdown {
-	p {
-	    padding: 0;
-	    text-align: justify;
-	    padding-bottom: 30px;
-	    a {
-		text-decoration: underline;
-	    }
-	}
-	h1, h2, h3, h4, h6 {
-	    line-height: 200%;
-	}
-	img {
-	    max-width: 100%;
-	}
-    }
     .buttons {
 	text-align: center;
 	padding: 50px 0;
@@ -338,6 +328,29 @@ iframe {
     img {
 	border-radius: 10px;
 	max-width: 100%;
+    }
+}
+
+.markdown {
+    border-bottom: 1px solid transparent;
+    p {
+	padding: 0;
+	text-align: justify;
+	padding-bottom: 30px;
+    }
+    h1, h2, h3, h4, h6 {
+	line-height: 200%;
+    }
+    img {
+	max-width: 100%;
+    }
+    a {
+	border-bottom: dashed 1px @lightGrey;
+	transition: border-bottom @transition ease;
+	&:hover, &:focus {
+	    border-bottom: solid 1px @grey;
+	    text-decoration: none;
+	}
     }
 }
 
@@ -446,6 +459,31 @@ iframe {
 	position: static;
 	a {
 	    text-align: center;
+	}
+    }
+}
+
+#current-faq {
+    .faq-content {
+	padding: 0 20px;
+    }
+    h1 {
+	text-align: center;
+    }
+    h2 {
+	line-height: auto;
+	padding: 30px 0;
+    }
+    p.answer {
+	text-align: justify;
+	ul {
+	    padding-top: 0;
+	    padding-bottom: 0;
+	}
+	h1, h2, h3, h4, h5, h6 {
+	    font-family: inherit;
+	    padding: 10px 0;
+	    font-weight: normal;
 	}
     }
 }

@@ -3,7 +3,7 @@
 <div id="tags">
   <h1 class="title">Tags</h1>
   {% for tag in tags %}
-  <a href="/projects/?tags={{ tag.name }}" class="tag">
+  <a href="{{ filter_url }}?tags={{ tag.name }}" class="tag">
     {{ tag.name }}
   </a>
   {% endfor %}

@@ -45,6 +45,12 @@ def get_image_url(imagePath):
 ############################################################
 # Models
 
+class SocialTag(models.Model):
+    name = models.CharField(max_length=30)
+
+    def __unicode__(self):
+        return self.name
+
 class SocialLink(models.Model):
     image = models.ImageField(upload_to=uploadImage(prefix='s'))
     url = models.CharField(max_length=500)
@@ -52,6 +58,7 @@ class SocialLink(models.Model):
     description = models.CharField(max_length=400, blank=True)
     importance = models.PositiveIntegerField(default=1)
     small = models.BooleanField(default=False)
+    tags = models.ManyToManyField(SocialTag)
 
     @property
     def image_url(self):
@@ -115,3 +122,11 @@ class Project(models.Model):
 
     def __unicode__(self):
         return self.name
+
+class FAQ(models.Model):
+    question = models.CharField(max_length=200)
+    answer = models.TextField()
+    importance = models.PositiveIntegerField(default=50)
+
+    def __unicode__(self):
+        return '{} ({})'.format(self.question, self.importance)

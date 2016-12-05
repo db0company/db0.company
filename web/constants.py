@@ -17,4 +17,5 @@ NAV = [
     ('blog', 'Blog', '/blog/'),
     ('resume', u'Résumé', '/resume/'),
     ('social', 'Social', '/social/'),
+    ('faq', 'FAQ', '/faq/'),
 ]
