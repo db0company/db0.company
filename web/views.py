@@ -16,7 +16,7 @@ def globalContext(request, nav=NAV):
         'site_name': 'db0.company',
         'site_description': 'Deby Lepage Official Website',
         'debug': settings.DEBUG,
-        'static_files_version': '2',
+        'static_files_version': '3',
         'rainbow': [(
             (index * (100/len(RAINBOW))),
             ((index + 1) * (100 / (len(RAINBOW)))),
