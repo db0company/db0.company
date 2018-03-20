@@ -7,11 +7,13 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Raleway', sans-serif;
     background-color: white;
-    color: @grey;
 }
 
+body, input, select {
+    font-family: 'Raleway', sans-serif;
+    color: @grey;
+}
 #topbar {
     height: 30px;
     position: fixed;
@@ -41,6 +43,16 @@ p {
     margin: 0;
     padding: 0;
     line-height: 1.5em;
+}
+
+.pagination-text {
+    color: #ccc;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.muted {
+    color: #ccc;
 }
 
 h1, h2, h3, h4, h6 {
@@ -216,6 +228,51 @@ iframe {
     }
 }
 
+.publics {
+    text-align: center;
+    padding-top: 40px;
+}
+
+.public {
+    @width: 207.5px;
+    display: inline-block;
+    width: @width;
+    box-sizing: border-box;
+    padding: 10px;
+    padding-bottom: 20px;
+    vertical-align: top;
+    opacity: 0.9;
+    transition: opacity @transition ease;
+    &:hover, &:focus {
+        text-decoration: none;
+        opacity: 1;
+    }
+    .url, .img {
+        width: 100%;
+        height: @width - 20;
+        border-radius: 20px;
+        background-position: center center;
+        background-size: 100%;
+        line-height: @width - 20;
+        font-size: @width * 0.3;
+    }
+    h3 {
+        padding-top: 10px;
+    }
+    &.link {}
+}
+
+input[name="search"] {
+    margin: 50px 0;
+    border: 0;
+    font-size: 2em;
+    text-align: center;
+}
+
+::placeholder {
+    color: #ccc;
+}
+
 #projects {
      margin: 0 -5px;
     text-align: center;
@@ -241,7 +298,7 @@ iframe {
     }
 }
 
-#backbutton, #full-image-close-button {
+#backbutton, #full-image-close-button, #full-text-close-button {
     font-family: 'HaasGrotesk', 'Raleway', sans-serif;
     display: block;
     position: fixed;
@@ -322,12 +379,24 @@ iframe {
     }
 }
 
-#full-image {
+#full-image, #full-text {
     padding: 50px 73px;
     text-align: center;
     img {
 	border-radius: 10px;
 	max-width: 100%;
+    }
+}
+
+#full-text {
+    width: 830px;
+    max-width: 100%;
+    margin: auto;
+    text-align: left;
+    &>p:not(.markdown) {
+        white-space: pre-wrap;
+        font-family: monospace;
+        font-size: 1.2em;
     }
 }
 
@@ -382,7 +451,7 @@ iframe {
 	    margin: 5%;
 	}
     }
-    #full-image {
+    #full-image, #full-text {
 	padding: 0;
 	width: auto;
 	img {

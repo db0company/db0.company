@@ -14,6 +14,23 @@ def randomString(length, choice=(string.ascii_letters + string.digits)):
         return ''.join(random.SystemRandom().choice(choice) for _ in range(length))
 
 @deconstructible
+class uploadFile(object):
+    def __init__(self, prefix, length=30):
+        self.prefix = prefix
+        self.length = length
+
+    def __call__(self, instance, filename):
+        _, extension = os.path.splitext(filename)
+        return u'{static_uploaded_files_prefix}{prefix}/{id}{string}{random}{extension}'.format(
+            static_uploaded_files_prefix=django_settings.STATIC_UPLOADED_FILES_PREFIX,
+            prefix=self.prefix,
+            id=instance.id if instance.id else '',
+            string=tourldash(unicode(instance)),
+            random=randomString(4),
+            extension=extension if extension else '',
+        )
+
+@deconstructible
 class uploadImage(object):
     def __init__(self, prefix, length=30):
         self.prefix = prefix
@@ -32,15 +49,15 @@ class uploadImage(object):
             extension=extension,
         )
 
-def get_image_url(imagePath):
-    if not imagePath:
+def get_file_url(filePath):
+    if not filePath:
         return None
-    imageURL = unicode(imagePath)
-    if '//' in imageURL:
-        return imageURL
-    if imageURL.startswith('web'):
-        imageURL = imageURL.replace('web', '', 1)
-    return u'{}{}'.format(django_settings.STATIC_FULL_URL, imageURL)
+    fileURL = unicode(filePath)
+    if '//' in fileURL:
+        return fileURL
+    if fileURL.startswith('web'):
+        fileURL = fileURL.replace('web', '', 1)
+    return u'{}{}'.format(django_settings.STATIC_FULL_URL, fileURL)
 
 ############################################################
 # Models
@@ -62,7 +79,7 @@ class SocialLink(models.Model):
 
     @property
     def image_url(self):
-        return get_image_url(self.image)
+        return get_file_url(self.image)
 
     def __unicode__(self):
         return self.name
@@ -99,19 +116,19 @@ class Project(models.Model):
 
     @property
     def image_url(self):
-        return get_image_url(self.image)
+        return get_file_url(self.image)
 
     @property
     def screenshot1_url(self):
-        return get_image_url(self.screenshot1)
+        return get_file_url(self.screenshot1)
 
     @property
     def screenshot2_url(self):
-        return get_image_url(self.screenshot2)
+        return get_file_url(self.screenshot2)
 
     @property
     def screenshot3_url(self):
-        return get_image_url(self.screenshot3)
+        return get_file_url(self.screenshot3)
 
     @property
     def web_url(self):
@@ -130,3 +147,32 @@ class FAQ(models.Model):
 
     def __unicode__(self):
         return '{} ({})'.format(self.question, self.importance)
+
+class PublicTag(models.Model):
+    name = models.CharField(max_length=30)
+
+    def __unicode__(self):
+        return self.name
+
+class Public(models.Model):
+    creation = models.DateTimeField(auto_now_add=True)
+    modification = models.DateTimeField(auto_now=True)
+    name = models.CharField(max_length=100)
+    tags = models.ManyToManyField(PublicTag)
+    image = models.ImageField(upload_to=uploadImage(prefix='p'), null=True, blank=True)
+    file = models.FileField(upload_to=uploadFile(prefix='pf'), null=True, blank=True)
+    url = models.CharField(max_length=500, null=True, blank=True)
+    text = models.TextField(null=True, blank=True)
+    text_markdown = models.BooleanField(default=True)
+    private = models.BooleanField(default=False)
+
+    @property
+    def image_url(self):
+        return get_file_url(self.image)
+
+    @property
+    def file_url(self):
+        return get_file_url(self.file)
+
+    def __unicode__(self):
+        return self.name

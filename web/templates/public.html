@@ -1,0 +1,32 @@
+{% extends extends %}
+{% block content %}
+<div class="publics">
+  {% if tags or search %}{% if not ajax %}
+  <h1 class="title"><small>{% if tags %}{{ tags }}{% else %}{{ search }}{% endif %}</small></h1>
+  {% endif %}{% endif %}
+  {% for public in publics %}{% if public.url %}<a href="{{ public.url }}" class="public link" target="_blank">
+    <div class="url" style="background-color: {{ public.color }};">🔗</div>
+  {% elif public.image %}<a href="{{ public.image_url }}" class="public image" target="_blank" data-open-image="true">
+    <div class="img" style="background-image: url('{{ public.image_url }}');"></div>
+  {% elif public.file %}<a href="{{ public.file_url }}" class="public file" target="_blank">
+    <div class="url" style="background-color: {{ public.color }};">📄</div>
+  {% elif public.text %}<a href="." class="public file" target="_blank" data-open-text="true"{% if public.text_markdown %} data-open-text-markdown="true"{% endif %}>
+    <div class="url" style="background-color: {{ public.color }};">📝<span class="content" style="display: none;">{{ public.text }}</span></div>
+  {% endif %}
+    <h3 style="color: {{ public.color }};">{% if public.private %}🔒{% endif %}{{ public.name }}</h3>
+    {% if show_tags %}
+    <small style="color: {{ public.color }};">{{ public.tags_string }}</small>
+    {% endif %}
+    <div><small class="muted">{{ public.creation|date:"F d Y" }}</small></div>
+    </a>{% endfor %}
+</div>
+{% if publics %}
+<p data-next-page="{{ next_page }}" class="loading" style="display: none;">Loading...</p>
+{% else %}
+<p class="pagination-text">End.</p>
+{% endif %}
+{% endblock %}
+{% block extrabuttons %}
+<a href="/publictags/">Tags</a>
+<hr>
+{% endblock %}

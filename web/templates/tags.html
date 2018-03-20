@@ -7,5 +7,10 @@
     {{ tag.name }}
   </a>
   {% endfor %}
+  {% if allow_search %}
+  <form action="{{ filter_url }}" method="GET">
+    <input type="text" name="search" placeholder="Search" />
+  </form>
+  {% endif %}
 </div>
 {% endblock %}

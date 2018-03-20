@@ -3,6 +3,8 @@ import math
 from web.constants import RAINBOW
 
 def getRainbowFromSize(size):
+    if not size:
+        return []
     if size > len(RAINBOW):
         return (RAINBOW * int(math.ceil(size / len(RAINBOW))))[:size]
     step = int(round(len(RAINBOW) / size))

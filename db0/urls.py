@@ -9,10 +9,12 @@ urlpatterns = [
     url(r'^project/(?P<id>\d+)/[^/]+[/]+$', views.project, name='project'),
     url(r'^resume[/]+$', views.generic, name='resume'),
     url(r'^social[/]+$', views.social, name='social'),
+    url(r'^public[/]+$', views.public, name='public'),
     url(r'^faq[/]+$', views.faq, name='faq'),
     url(r'^blog[/]+$', views.generic, name='blog'),
     url(r'^tags[/]+$', views.tags, name='tags'),
     url(r'^socialtags[/]+$', views.socialtags, name='socialtags'),
+    url(r'^publictags[/]+$', views.publictags, name='publictags'),
     url(r'^calendar[/]+$', views.generic, name='calendar'),
     url(r'^admin/', admin.site.urls),
 ]

@@ -50,11 +50,17 @@
       {% for name, title, url, color in nav %}
       <a href="{{ url }}" style="color: {{ color }}; border-color: {{ color }};"{% if current == name %} class="current"{% endif %}>{{ title }}</a>
       {% endfor %}
+      {% if user.is_superuser %}<a href="/admin/">🔒</a>{% endif %}
     </div>
     {% endif %}
     <div id="full-image" style="display: none;">
-      <a id="full-image-close-button" href="#">{{ 'x' }}</a>
+      <a id="full-image-close-button" href="#">x</a>
       <img src="" alt="Full size image">
+    </div>
+    <div id="full-text" style="display: none;">
+      <a id="full-text-close-button" href="#">x</a>
+      <p>
+      </p>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>

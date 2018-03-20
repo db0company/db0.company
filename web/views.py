@@ -102,3 +102,46 @@ def socialtags(request):
     context['filter_url'] = '/social/'
     context['tags'] = models.SocialTag.objects.all().order_by('?')
     return render(request, 'tags.html', context)
+
+def public(request):
+    context = globalContext(request)
+    context['publics'] = models.Public.objects.all().order_by('-modification')
+    context['show_tags'] = 'show_tags' in request.GET
+    context['ajax'] = 'ajax' in request.GET
+    context['page'] = int(request.GET.get('page', 0))
+    if not request.user.is_superuser:
+        context['publics'] = context['publics'].filter(private=False)
+    if context['show_tags']:
+        context['publics'] = context['publics'].prefetch_related(Prefetch('tags', to_attr='all_tags'))
+    if 'tags' in request.GET:
+        context['hide_nav'] = True
+        context['back'] = '/publictags/'
+        context['tags'] = []
+        for tag in request.GET['tags'].split(','):
+            context['tags'].append(tag)
+            context['publics'] = context['publics'].filter(tags__name=tag)
+        if not context['publics']:
+            context['tags'] = []
+        context['tags'] = ' - '.join(context['tags'])
+    if 'search' in request.GET:
+        context['hide_nav'] = True
+        context['back'] = '/publictags/'
+        context['search'] = request.GET['search']
+        context['publics'] = context['publics'].filter(name__icontains=context['search'])
+    context['next_page'] = context['page'] + 20
+    context['publics'] = context['publics'][context['page']:context['next_page']]
+    for (public, color) in zip(context['publics'], utils.getRainbowFromSize(len(context['publics']))):
+        public.color = color
+        if context['show_tags']:
+            public.tags_string = u', '.join([tag.name for tag in public.all_tags])
+    context['extends'] = 'ajax.html' if context['ajax'] else 'base.html'
+    return render(request, 'public.html', context)
+
+def publictags(request):
+    context = globalContext(request)
+    context['hide_nav'] = True
+    context['back'] = '/public/'
+    context['filter_url'] = '/public/'
+    context['tags'] = models.PublicTag.objects.all().order_by('?')
+    context['allow_search'] = True
+    return render(request, 'tags.html', context)
