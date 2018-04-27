@@ -18,5 +18,4 @@ NAV = [
     ('resume', u'Résumé', '/resume/'),
     ('social', 'Social', '/social/'),
     ('faq', 'FAQ', '/faq/'),
-    ('public', 'Public', '/public/'),
 ]
